@@ -1,5 +1,23 @@
 {
   "dependencies": {
     "@ronomon/opened": "^1.5.1"
-  }
+  },
+  "name": "is-file-opened",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chunpu/is-file-opened.git"
+  },
+  "author": "chunpu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chunpu/is-file-opened/issues"
+  },
+  "homepage": "https://github.com/chunpu/is-file-opened#readme",
+  "description": "Detect file opened in windows and mac"
 }
