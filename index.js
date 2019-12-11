@@ -4,13 +4,19 @@ var child = require('child_process')
 
 var fastLsofBinary = path.join(__dirname, './vendor/fast_lsof')
 
-function detect(files) {
+function detectFiles(files) {
   var platform = process.platform
   if (platform === 'darwin') {
     return macLsof(files)
   } else {
     return OpenedPromise(files)
   }
+}
+
+function detectFile(file) {
+  return detectFiles([file]).then(function(result) {
+    return result[file]
+  })
 }
 
 function OpenedPromise(files) {
@@ -25,17 +31,19 @@ function OpenedPromise(files) {
 }
 
 function macLsof(files) {
+
   return new Promise(function(resolve, reject) {
     child.execFile(fastLsofBinary, files, { maxBuffer: 4 * 1024 * 1024 }, function(err, stdout, srderr) {
+      var ret = {}
+      var nameMap = {}
       if (stdout) {
         var lsofResults = parseLsofRaw(stdout)
-        var nameMap = getLsofNameMap(lsofResults)
-        var ret = {}
-        files.forEach(function(file) {
-          ret[file] = !!nameMap[file]
-        })
-        resolve(ret)
+        var nameMap = getLsofNameMap(lsofResults) || {}
       }
+      files.forEach(function(file) {
+        ret[file] = !!nameMap[file]
+      })
+      resolve(ret)
     })
   })
 }
@@ -68,4 +76,7 @@ function getLsofNameMap(results) {
   return ret
 }
 
-exports.detect = detect
+exports.detectFiles = detectFiles
+exports.detectFile = detectFile
+exports.parseLsofRaw = parseLsofRaw
+exports.fastLsofBinary = fastLsofBinary
