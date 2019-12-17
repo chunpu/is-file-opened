@@ -22,5 +22,12 @@ function test() {
   })
 }
 
+function test3() {
+  isFileOpened.lsof(files).then(ret => {
+    console.log({ret})
+  })
+}
+
 test()
 test2()
+test3()

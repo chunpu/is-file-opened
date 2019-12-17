@@ -30,8 +30,20 @@ function OpenedPromise(files) {
   })
 }
 
-function macLsof(files) {
+function lsof(files) {
+  return new Promise(function(resolve, reject) {
+    child.execFile(fastLsofBinary, files, { maxBuffer: 4 * 1024 * 1024 }, function(err, stdout, srderr) {
+      var nameMap = {}
+      if (stdout) {
+        var lsofResults = parseLsofRaw(stdout)
+        resolve(lsofResults)
+      }
+      resolve([])
+    })
+  })
+}
 
+function macLsof(files) {
   return new Promise(function(resolve, reject) {
     child.execFile(fastLsofBinary, files, { maxBuffer: 4 * 1024 * 1024 }, function(err, stdout, srderr) {
       var ret = {}
@@ -80,3 +92,4 @@ exports.detectFiles = detectFiles
 exports.detectFile = detectFile
 exports.parseLsofRaw = parseLsofRaw
 exports.fastLsofBinary = fastLsofBinary
+exports.lsof = lsof
