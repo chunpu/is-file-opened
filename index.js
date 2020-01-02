@@ -33,13 +33,13 @@ function OpenedFilesPromise(files) {
 }
 
 function OpenedFilePromise(file) {
-
   return new Promise(function(resolve, reject) {
     Opened.files(files, function(err, ret) {
       if (err) {
+        // return false if crash
         return resolve(false)
       }
-      resolve(true)
+      resolve(ret)
     })
   })
 }
