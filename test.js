@@ -3,7 +3,8 @@ var isFileOpened = require('./')
 var fs = require('fs')
 
 var docFile = path.join(__dirname, 'test.docx')
-var files = [path.join(__dirname, 'package.json'), docFile]
+var notExistFile = path.join(__dirname, 'not.exist')
+var files = [path.join(__dirname, 'package.json'), docFile, notExistFile]
 
 function test2() {
   isFileOpened.detectFiles(files).then(function(result) {

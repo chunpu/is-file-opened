@@ -9,7 +9,7 @@ function detectFiles(files) {
   if (platform === 'darwin') {
     return macLsof(files)
   } else {
-    return OpenedPromise(files)
+    return OpenedFilesPromise(files)
   }
 }
 
@@ -19,13 +19,27 @@ function detectFile(file) {
   })
 }
 
-function OpenedPromise(files) {
+function OpenedFilesPromise(files) {
+  // opened use limit queue it self in windows
+  // https://github.com/ronomon/opened/blob/master/index.js
+  return mapLimit(files, OpenedFilePromise, 1).catch(function() {}).then(function(arr) {
+    arr = arr || []
+    var ret = {}
+    files.forEach(function(item, i) {
+      ret[files[i]] = !!arr[i]
+    })
+    return ret
+  })
+}
+
+function OpenedFilePromise(file) {
+
   return new Promise(function(resolve, reject) {
     Opened.files(files, function(err, ret) {
       if (err) {
-        return reject(err)
+        return resolve(false)
       }
-      resolve(ret)
+      resolve(true)
     })
   })
 }
@@ -86,6 +100,45 @@ function getLsofNameMap(results) {
     ret[item.name] = item
   })
   return ret
+}
+
+function mapLimit(arr, fn, limit) {
+  limit = limit || Infinity
+  return new Promise(function(resolve, reject) {
+    var ret = []
+    var startCount = 0; var execCount = 0; var doneCount = 0
+    var hasDone, hasStart
+
+    function exec() {
+      for (var i = startCount; i < arr.length; i++) {
+        if (execCount >= limit) return
+        hasStart = true
+        execCount++
+        startCount++
+        fn(arr[i], i).then(function(val) {
+          if (hasDone) { return }
+          execCount--
+          doneCount++
+          ret[i] = val
+          if (doneCount === arr.length) {
+            hasDone = true
+            resolve(ret)
+          } else {
+            exec()
+          }
+        }).catch(function(err) {
+          hasDone = true
+          return reject(err)
+        })
+      }
+    }
+
+    if (arr && arr.length) {
+      exec()
+    }
+
+    if (!hasStart) resolve(null) // empty
+  })
 }
 
 exports.detectFiles = detectFiles
