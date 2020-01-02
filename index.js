@@ -110,7 +110,7 @@ function mapLimit(arr, fn, limit) {
     var hasDone, hasStart
 
     function exec() {
-      for (var i = startCount; i < arr.length; i++) {
+      for (let i = startCount; i < arr.length; i++) {
         if (execCount >= limit) return
         hasStart = true
         execCount++
