@@ -34,7 +34,7 @@ function OpenedFilesPromise(files) {
 
 function OpenedFilePromise(file) {
   return new Promise(function(resolve, reject) {
-    Opened.file(files, function(err, ret) {
+    Opened.file(file, function(err, ret) {
       if (err) {
         // return false if crash
         return resolve(false)
