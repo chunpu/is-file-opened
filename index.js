@@ -46,7 +46,7 @@ function OpenedFilePromise(file) {
 
 function lsof(files) {
   return new Promise(function(resolve, reject) {
-    child.execFile(fastLsofBinary, files, { maxBuffer: 4 * 1024 * 1024 }, function(err, stdout, srderr) {
+    child.execFile(fastLsofBinary, files, { maxBuffer: 4 * 1024 * 1024 }, function(err, stdout, stderr) {
       var nameMap = {}
       if (stdout) {
         var lsofResults = parseLsofRaw(stdout)
@@ -59,7 +59,7 @@ function lsof(files) {
 
 function macLsof(files) {
   return new Promise(function(resolve, reject) {
-    child.execFile(fastLsofBinary, files, { maxBuffer: 4 * 1024 * 1024 }, function(err, stdout, srderr) {
+    child.execFile(fastLsofBinary, files, { maxBuffer: 4 * 1024 * 1024 }, function(err, stdout, stderr) {
       var ret = {}
       var nameMap = {}
       if (stdout) {
@@ -78,17 +78,17 @@ function parseLsofRaw(text) {
   text = text || ''
   text = text.trim()
   var lines = text.split('\n')
-  var headerLine = lines[0]
+  var headerLine = lines[0].toLowerCase()
   var resultLines = lines.slice(1)
-  var headers = headerLine.split(/\s+/).map(function(item) {
-    return item.toLowerCase()
-  })
+  var headers = headerLine.split(/\s+/)
+  var nameIndex = headerLine.indexOf('name')
   resultLines = resultLines.map(function(line) {
     var obj = {}
     var arr = line.split(/\s+/)
-    arr.forEach(function(item, i) {
+    headers.forEach(function(item, i) {
       obj[headers[i]] = arr[i]
     })
+    obj.name = line.slice(nameIndex) // 文件可能有空格, 但文件名始终和name对齐
     return obj
   })
   return resultLines
