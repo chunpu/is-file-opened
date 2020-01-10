@@ -7,10 +7,7 @@ var notExistFile = path.join(__dirname, 'not.exist')
 var files = [path.join(__dirname, 'package.json'), docFile, notExistFile]
 
 function test2() {
-  isFileOpened.detectFiles(files, { afterLsof: results => {
-    console.log(222, results)
-    return results
-  } }).then(function(result) {
+  isFileOpened.detectFiles(files).then(function(result) {
     console.log('result', result)
   }).catch(err => {
     console.log('crash', err)
