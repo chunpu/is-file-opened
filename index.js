@@ -14,7 +14,7 @@ function detectFiles(files, opt) {
 }
 
 function detectFile(file, opt) {
-  return detectFiles([file]).then(function(result) {
+  return detectFiles([file], opt).then(function(result) {
     return result[file]
   })
 }
