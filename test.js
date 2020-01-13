@@ -2,7 +2,7 @@ var path = require('path')
 var isFileOpened = require('./')
 var fs = require('fs')
 
-var docFile = path.join(__dirname, 'test with space.docx')
+var docFile = path.join(__dirname, '中文test with space.docx')
 var notExistFile = path.join(__dirname, 'not.exist')
 var files = [path.join(__dirname, 'package.json'), docFile, notExistFile]
 

@@ -80,6 +80,7 @@ function macLsof(files, opt) {
 
 function parseLsofRaw(text) {
   text = text || ''
+  text = decodeHexText(text)
   text = text.trim()
   var lines = text.split('\n')
   var headerLine = lines[0].toLowerCase()
@@ -96,6 +97,14 @@ function parseLsofRaw(text) {
     return obj
   })
   return resultLines
+}
+
+function decodeHexText(text) {
+  try {
+    return decodeURIComponent(text.replace(/\\x/g, '%'))
+  } catch (err) {
+    return text
+  }
 }
 
 function getLsofNameMap(results) {
