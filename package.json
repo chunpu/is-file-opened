@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "@ronomon/opened": "^1.5.1"
+    "@ronomon/opened": "^1.5.1",
+    "wholocks-fork": "^0.1.6"
   },
   "name": "is-file-opened",
   "version": "1.6.0",

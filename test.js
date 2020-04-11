@@ -29,6 +29,12 @@ function test3() {
   })
 }
 
+function test4() {
+  var ret = isFileOpened.wholocks(docFile)
+  console.log('who locks doc file', ret)
+}
+
 test()
 test2()
 test3()
+test4()

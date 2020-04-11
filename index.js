@@ -1,8 +1,13 @@
 var Opened = require('@ronomon/opened')
 var path = require('path')
 var child = require('child_process')
+var wholocksLib = require('wholocks-fork').default
 
 var fastLsofBinary = path.join(__dirname, './vendor/fast_lsof')
+
+function wholocks(file) {
+  return wholocksLib(file)
+}
 
 function detectFiles(files, opt) {
   var platform = process.platform
@@ -159,3 +164,4 @@ exports.detectFile = detectFile
 exports.parseLsofRaw = parseLsofRaw
 exports.fastLsofBinary = fastLsofBinary
 exports.lsof = lsof
+exports.wholocks = wholocks
