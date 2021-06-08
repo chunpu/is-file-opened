@@ -3,9 +3,9 @@
 
 
 "@ronomon/opened@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.npm.taobao.org/@ronomon/opened/download/@ronomon/opened-1.5.1.tgz#29fe1b66306032ae30b04904519ade992bd2023a"
-  integrity sha1-Kf4bZjBgMq4wsEkEUZremSvSAjo=
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@ronomon/opened/-/opened-1.5.2.tgz#c4a1c7d82d898879c3d5d726669d7fc416f72c47"
+  integrity sha512-NngYXbq5UFU98AqDHdSAT5kiyy6vGlNjgiZRVylmCt62uUfBBAqOVcS8FG0IJ9wHMVL/LCaS0lIxbxvxmNns4A==
   dependencies:
     "@ronomon/queue" "^3.0.0"
     nan "^2.11.0"
